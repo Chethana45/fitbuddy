@@ -1,0 +1,22 @@
+# Environment variables
+.env
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# SQLite Database
+*.db
+fitbuddy.db
+
+# Virtual environments
+venv/
+fitbuddy-env/
+env/
+ENV/
+
+# Temporary directories
+FitBuddy-main/
+.pytest_cache/
+.vscode/

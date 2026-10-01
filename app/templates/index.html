@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitBuddy &ndash; AI Personal Fitness Trainer</title>
+  
+  <!-- Fonts: Plus Jakarta Sans & Roboto -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  
+  <!-- Master Stylesheet -->
+  <link rel="stylesheet" href="/static/css/style.css" />
+
+  <style>
+    /* Specific Landing Page Layout Adjustments */
+    .landing-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .landing-wrapper {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* Hero Section */
+    .hero-header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: var(--radius-full);
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: #c7d2fe;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1.2px;
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    /* Form Container Header */
+    .form-card {
+      padding: 40px;
+    }
+
+    .form-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-glass);
+    }
+
+    .form-header-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-bright);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-header-badge {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+      font-weight: 700;
+    }
+
+    /* Stat Highlights Row */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .stat-box {
+      background: rgba(10, 10, 24, 0.4);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      text-align: center;
+    }
+
+    .stat-val {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .stat-lbl {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+
+    /* Footer / Admin Link */
+    .landing-footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .admin-pill-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-glass);
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      transition: all 0.2s ease;
+    }
+    .admin-pill-link:hover {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: rgba(99, 102, 241, 0.4);
+      color: #fff;
+    }
+
+    @media (max-width: 540px) {
+      .landing-wrapper { gap: 24px; }
+      .hero-title { font-size: 2.2rem; }
+      .form-card { padding: 24px 20px; }
+      .stat-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="landing-body">
+
+  <div class="landing-wrapper">
+
+    <!-- HERO HEADER -->
+    <header class="hero-header" role="banner">
+      <div class="hero-badge-pill">
+        <span>⚡ Powered by Google Gemini AI</span>
+      </div>
+      <h1 class="hero-title">
+        Fit<span class="gradient-text">Buddy</span>
+      </h1>
+      <p class="hero-subtitle">
+        Your intelligent AI workout &amp; nutrition architect. Get a customized 7-day fitness plan tailored to your goals in seconds.
+      </p>
+    </header>
+
+    <!-- FORM GLASS CARD -->
+    <main role="main">
+      <div class="glass-card form-card">
+        
+        <div class="form-header">
+          <div class="form-header-title">
+            <span>👤</span> User Profile &amp; Preferences
+          </div>
+          <span class="form-header-badge">Instant Generation</span>
+        </div>
+
+        <!-- STAT HIGHLIGHTS -->
+        <div class="stat-row">
+          <div class="stat-box">
+            <div class="stat-val gradient-text">7 Days</div>
+            <div class="stat-lbl">Full Plan</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val gradient-text-emerald">100%</div>
+            <div class="stat-lbl">Personalized</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" style="color: #fbbf24;">Gemini 3.5</div>
+            <div class="stat-lbl">AI Generator</div>
+          </div>
+        </div>
+
+        <form action="/generate-workout" method="post" id="genForm" novalidate>
+
+          <!-- Full Name -->
+          <div class="field">
+            <label for="username">Full Name</label>
+            <div class="input-wrapper">
+              <span class="input-icon">👤</span>
+              <input id="username" name="username" type="text"
+                     placeholder="e.g. Alex Johnson" required autocomplete="name" />
+            </div>
+          </div>
+
+          <!-- User ID -->
+          <div class="field">
+            <label for="user_id">User ID <span class="hint">(Unique identifier)</span></label>
+            <div class="input-wrapper">
+              <span class="input-icon">🆔</span>
+              <input id="user_id" name="user_id" type="text"
+                     placeholder="e.g. alex_42 or U-00123" required />
+            </div>
+          </div>
+
+          <!-- Age & Weight Row -->
+          <div class="field-row">
+            <div class="field">
+              <label for="age">Age <span class="hint">(Years)</span></label>
+              <div class="input-wrapper">
+                <span class="input-icon">🎂</span>
+                <input id="age" name="age" type="number"
+                       min="10" max="100" placeholder="25" required />
+              </div>
+            </div>
+            <div class="field">
+              <label for="weight">Weight <span class="hint">(kg)</span></label>
+              <div class="input-wrapper">
+                <span class="input-icon">⚖️</span>
+                <input id="weight" name="weight" type="number"
+                       step="0.1" min="30" placeholder="70" required />
+              </div>
+            </div>
+          </div>
+
+          <!-- Fitness Goal -->
+          <div class="field">
+            <label for="goal">Fitness Goal</label>
+            <div class="input-wrapper">
+              <span class="input-icon">🎯</span>
+              <select id="goal" name="goal" required>
+                <option value="" disabled selected>Select your goal&hellip;</option>
+                <option value="Weight Loss">🔥 Weight Loss</option>
+                <option value="Muscle Gain">💪 Muscle Gain</option>
+                <option value="Improve Endurance">🏃 Improve Endurance</option>
+                <option value="General Fitness">⚡ General Fitness</option>
+                <option value="Flexibility &amp; Mobility">🧘 Flexibility &amp; Mobility</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Experience Level -->
+          <div class="field">
+            <label for="experience_level">Experience Level</label>
+            <div class="input-wrapper">
+              <span class="input-icon">🏆</span>
+              <select id="experience_level" name="experience_level" required>
+                <option value="" disabled selected>Select experience level&hellip;</option>
+                <option value="Beginner">🌱 Beginner</option>
+                <option value="Intermediate">🚀 Intermediate</option>
+                <option value="Advanced">🔥 Advanced</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Training Intensity -->
+          <div class="field" style="margin-top: 4px;">
+            <label>Training Intensity</label>
+            <div class="pill-group" id="intensityGroup" role="group" aria-label="Training Intensity">
+              <label class="pill" data-val="low">
+                <input type="radio" name="intensity" value="low" required />
+                🐢 Low
+              </label>
+              <label class="pill" data-val="medium">
+                <input type="radio" name="intensity" value="medium" />
+                🏃 Medium
+              </label>
+              <label class="pill" data-val="high">
+                <input type="radio" name="intensity" value="high" />
+                🔥 High
+              </label>
+            </div>
+          </div>
+
+          <!-- Submit CTA -->
+          <button type="submit" class="btn-primary" id="submitBtn" style="margin-top: 12px;">
+            <span id="btnLabel">Generate My 7-Day Plan ✨</span>
+            <span class="spinner" id="btnSpinner" aria-hidden="true"></span>
+          </button>
+
+        </form>
+
+      </div>
+    </main>
+
+    <!-- FOOTER & ADMIN ACCESS -->
+    <footer class="landing-footer" role="contentinfo">
+      <span>FitBuddy &copy; 2026</span>
+      <a href="/view-all-users" class="admin-pill-link">
+        <span>🔒 Admin Dashboard</span> &rarr;
+      </a>
+    </footer>
+
+  </div>
+
+  <script src="/static/js/script.js" defer></script>
+</body>
+</html>
