@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitBuddy - AI Fitness Plan</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Marked.js for markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="glass-header">
+            <h1 class="logo">FitBuddy</h1>
+            <p class="tagline">Your personal AI fitness coach.</p>
+        </header>
+
+        <!-- Main Form Section -->
+        <main class="content-wrapper">
+            <section id="form-section" class="card">
+                <h2>Tailor Your Fitness Journey</h2>
+                <form id="plan-form">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender" name="gender" required>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input type="number" id="age" name="age" required min="10" placeholder="25">
+                        </div>
+                        <div class="form-group">
+                            <label for="weight">Weight (kg)</label>
+                            <input type="number" id="weight" name="weight" required min="30" placeholder="70">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="goal">Primary Goal</label>
+                        <select id="goal" name="goal" required>
+                            <option value="weight loss">Weight Loss</option>
+                            <option value="muscle gain">Muscle Gain</option>
+                            <option value="general wellness">General Wellness</option>
+                            <option value="marathon training">Marathon Training</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="intensity">Preferred Intensity</label>
+                        <select id="intensity" name="intensity" required>
+                            <option value="low">Low (Beginner)</option>
+                            <option value="medium">Medium (Intermediate)</option>
+                            <option value="high">High (Advanced)</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn primary-btn" id="generate-btn">
+                        <span>Generate My Plan</span>
+                        <div class="spinner hidden" id="generate-spinner"></div>
+                    </button>
+                    <p id="error-msg" class="error-msg hidden"></p>
+                </form>
+            </section>
+
+            <!-- Results Section (Hidden initially) -->
+            <section id="results-section" class="card hidden fade-in">
+                <div class="results-header">
+                    <h2>Your Custom 7-Day Plan</h2>
+                    <button class="btn secondary-btn" id="get-tip-btn">Get Nutrition Tip</button>
+                </div>
+                
+                <div id="tip-container" class="tip-box hidden fade-in">
+                    <p id="nutrition-tip"></p>
+                </div>
+
+                <div class="markdown-content" id="plan-content">
+                    <!-- Markdown rendered plan will appear here -->
+                </div>
+
+                <div class="feedback-section">
+                    <h3>Want to tweak your plan?</h3>
+                    <form id="feedback-form">
+                        <input type="hidden" id="plan_id" name="plan_id">
+                        <div class="form-group">
+                            <textarea id="feedback_text" name="feedback_text" rows="3" placeholder="E.g. add more cardio days, make it shorter..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn primary-btn" id="update-btn">
+                            <span>Update Plan</span>
+                            <div class="spinner hidden" id="update-spinner"></div>
+                        </button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Background decoration -->
+    <div class="bg-shape shape1"></div>
+    <div class="bg-shape shape2"></div>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
