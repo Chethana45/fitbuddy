@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitBuddy &ndash; Admin Dashboard</title>
+
+  <!-- Fonts: Plus Jakarta Sans & Roboto -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- Master Stylesheet -->
+  <link rel="stylesheet" href="/static/css/style.css" />
+
+  <style>
+    /* Admin Dashboard Custom Styles */
+    main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .admin-header-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .dash-h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .dash-sub {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Admin Metrics Row */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .metric-card {
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .metric-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .metric-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .metric-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.1;
+    }
+
+    .metric-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+
+    /* Admin Table Component */
+    .table-card {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      width: 100%;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      text-align: left;
+    }
+
+    thead th {
+      background: rgba(10, 10, 24, 0.7);
+      padding: 16px 18px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border-glass);
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: background 0.15s ease;
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    td {
+      padding: 16px 18px;
+      vertical-align: middle;
+      color: var(--text-main);
+    }
+
+    .user-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-avatar-mini {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--grad-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .user-name-text {
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .user-id-text {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      font-family: monospace;
+    }
+
+    /* Action Buttons */
+    .btn-sm-view {
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      color: #a5b4fc;
+      font-size: 0.78rem;
+      font-weight: 700;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-sm-view:hover {
+      background: rgba(99, 102, 241, 0.35);
+      color: #fff;
+    }
+
+    .btn-sm-danger {
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #fca5a5;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .btn-sm-danger:hover {
+      background: rgba(239, 68, 68, 0.35);
+      color: #fff;
+    }
+
+    /* Details Accordion Viewers */
+    details summary {
+      cursor: pointer;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--day-0-accent);
+      user-select: none;
+      list-style: none;
+    }
+    details summary::-webkit-details-marker { display: none; }
+    details[open] summary { margin-bottom: 8px; }
+
+    pre.json-box {
+      font-size: 0.72rem;
+      color: #c7d2fe;
+      background: rgba(8, 8, 16, 0.8);
+      border: 1px solid var(--border-glass);
+      padding: 10px;
+      border-radius: 8px;
+      max-height: 180px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .empty-card {
+      padding: 60px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- STICKY HEADER -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <a href="/" class="brand-link">
+        <span class="brand-icon">💪</span>
+        <span>Fit<span class="gradient-text">Buddy</span></span>
+      </a>
+      <div style="display:flex; align-items:center; gap:14px;">
+        <span class="badge badge-purple">🔒 Admin Console</span>
+        <a href="/" class="badge" style="background:rgba(255,255,255,0.06); border:1px solid var(--border-glass); color:var(--text-muted);">
+          + Create Plan
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main role="main">
+
+    <!-- PAGE TITLE -->
+    <div class="admin-header-title">
+      <div>
+        <h1 class="dash-h1">Registered Users &amp; Fitness Plans</h1>
+        <p class="dash-sub">Coach Overview &ndash; Monitor client activity, plan revisions, and completion progress.</p>
+      </div>
+    </div>
+
+    <!-- METRICS OVERVIEW -->
+    <div class="metrics-grid">
+      <div class="glass-card metric-card">
+        <div class="metric-icon" style="background:var(--grad-primary);">👥</div>
+        <div class="metric-info">
+          <span class="metric-value">{{ users | length }}</span>
+          <span class="metric-label">Total Registered Users</span>
+        </div>
+      </div>
+
+      <div class="glass-card metric-card">
+        <div class="metric-icon" style="background:var(--grad-success);">📈</div>
+        <div class="metric-info">
+          <span class="metric-value">Active</span>
+          <span class="metric-label">Progress Tracking</span>
+        </div>
+      </div>
+
+      <div class="glass-card metric-card">
+        <div class="metric-icon" style="background:var(--grad-cyan);">⚡</div>
+        <div class="metric-info">
+          <span class="metric-value">Gemini 3.5</span>
+          <span class="metric-label">AI Engine</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMPTY STATE -->
+    {% if not users %}
+    <div class="glass-card empty-card">
+      <div style="font-size:3.5rem;">🏋️‍♂️</div>
+      <h3 style="font-size:1.3rem; font-weight:800; color:#fff;">No User Profiles Found</h3>
+      <p style="color:var(--text-muted); max-width:400px;">
+        Get started by creating your first personalized workout plan on the homepage.
+      </p>
+      <a href="/" class="btn-primary" style="width:auto; padding:12px 28px; margin-top:8px;">
+        Generate First Plan ✨
+      </a>
+    </div>
+    {% endif %}
+
+    <!-- USERS TABLE -->
+    {% if users %}
+    <div class="glass-card table-card">
+      <div class="table-wrap">
+        <table aria-label="Registered Users Data">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Age</th>
+              <th>Weight</th>
+              <th>Goal</th>
+              <th>Intensity</th>
+              <th>Level</th>
+              <th>Progress</th>
+              <th>Last Active</th>
+              <th>Original Plan</th>
+              <th>Updated Plan</th>
+              <th style="text-align:right;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in users %}
+            <tr>
+              <td>
+                <div class="user-cell">
+                  <div class="user-avatar-mini">{{ user.name[0] | upper }}</div>
+                  <div>
+                    <div class="user-name-text">{{ user.name }}</div>
+                    {% if user.user_id %}<div class="user-id-text">🆔 {{ user.user_id }}</div>{% endif %}
+                  </div>
+                </div>
+              </td>
+              <td>{{ user.age }} yrs</td>
+              <td>{{ user.weight }} kg</td>
+              <td>
+                <span class="badge badge-purple" style="font-size:0.75rem;">{{ user.goal }}</span>
+              </td>
+              <td style="text-transform:capitalize; font-weight:600; color:#e2e8f0;">{{ user.intensity }}</td>
+              <td>{{ user.experience_level }}</td>
+              <td>
+                <div style="font-weight:700; color:#34d399;">{{ user.completed_days }}/7 days</div>
+                <div style="font-size:0.75rem; color:var(--text-dim);">{{ user.progress_percentage }}% complete</div>
+              </td>
+              <td style="font-size:0.78rem; color:var(--text-dim);">
+                {{ user.last_activity or 'Just now' }}
+              </td>
+              <td>
+                {% if user.original_plan %}
+                <details>
+                  <summary>View JSON ▾</summary>
+                  <pre class="json-box">{{ user.original_plan }}</pre>
+                </details>
+                {% else %}<span style="color:var(--text-dim); font-style:italic;">None</span>{% endif %}
+              </td>
+              <td>
+                {% if user.updated_plan %}
+                <details>
+                  <summary style="color:#34d399;">View JSON ▾</summary>
+                  <pre class="json-box" style="color:#a7f3d0;">{{ user.updated_plan }}</pre>
+                </details>
+                {% else %}<span style="color:var(--text-dim); font-style:italic;">None</span>{% endif %}
+              </td>
+              <td style="text-align:right;">
+                <div style="display:flex; align-items:center; justify-content:flex-end; gap:8px;">
+                  {% if user.plan_id %}
+                    <a href="/result/{{ user.plan_id }}" class="btn-sm-view">View Plan ➔</a>
+                  {% endif %}
+                  <form action="/admin/users/{{ user.id }}/delete" method="post" onsubmit="return confirm('Are you sure you want to delete {{ user.name }} and all associated plan data?');">
+                    <button type="submit" class="btn-sm-danger">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+
+  </main>
+
+</body>
+</html>

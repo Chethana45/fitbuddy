@@ -1,0 +1,636 @@
+/* ==========================================================================
+   FitBuddy - Modern Dark Glassmorphism Stylesheet
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design System & CSS Variables
+   -------------------------------------------------------------------------- */
+:root {
+  /* Color Palette */
+  --bg-dark-base: #080811;
+  --bg-dark-surface: rgba(18, 18, 36, 0.65);
+  --bg-dark-card: rgba(24, 24, 48, 0.7);
+  --bg-dark-hover: rgba(255, 255, 255, 0.06);
+
+  --border-glass: rgba(255, 255, 255, 0.12);
+  --border-glass-bright: rgba(255, 255, 255, 0.22);
+  --border-focus: rgba(99, 102, 241, 0.6);
+
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --text-bright: #ffffff;
+
+  /* Neon Gradients */
+  --grad-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+  --grad-success: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+  --grad-accent: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+  --grad-cyan: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+  --grad-glow: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.25), transparent 70%);
+
+  /* Day Accent Gradients (0-6) */
+  --day-0-bg: linear-gradient(135deg, rgba(99, 102, 241, 0.22), rgba(139, 92, 246, 0.08));
+  --day-0-border: rgba(99, 102, 241, 0.4);
+  --day-0-accent: #818cf8;
+
+  --day-1-bg: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(6, 182, 212, 0.08));
+  --day-1-border: rgba(16, 185, 129, 0.4);
+  --day-1-accent: #34d399;
+
+  --day-2-bg: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(239, 68, 68, 0.08));
+  --day-2-border: rgba(245, 158, 11, 0.4);
+  --day-2-accent: #fbbf24;
+
+  --day-3-bg: linear-gradient(135deg, rgba(236, 72, 153, 0.22), rgba(168, 85, 247, 0.08));
+  --day-3-border: rgba(236, 72, 153, 0.4);
+  --day-3-accent: #f472b6;
+
+  --day-4-bg: linear-gradient(135deg, rgba(14, 165, 233, 0.22), rgba(59, 130, 246, 0.08));
+  --day-4-border: rgba(14, 165, 233, 0.4);
+  --day-4-accent: #38bdf8;
+
+  --day-5-bg: linear-gradient(135deg, rgba(217, 70, 239, 0.22), rgba(139, 92, 246, 0.08));
+  --day-5-border: rgba(217, 70, 239, 0.4);
+  --day-5-accent: #e879f9;
+
+  --day-6-bg: linear-gradient(135deg, rgba(132, 204, 22, 0.22), rgba(16, 185, 129, 0.08));
+  --day-6-border: rgba(132, 204, 22, 0.4);
+  --day-6-accent: #a3e635;
+
+  /* Shadows & Blur */
+  --glass-blur: blur(20px) saturate(180%);
+  --shadow-glass: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  --shadow-neon: 0 0 25px rgba(99, 102, 241, 0.35);
+
+  /* Font & Spacing */
+  --font-family: 'Plus Jakarta Sans', 'Outfit', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset & Base Setup
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-dark-base);
+  background-image:
+    radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 85% 25%, rgba(217, 70, 239, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 50% 85%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+    url('/static/images/gym-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-blend-mode: overlay;
+  color: var(--text-main);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-dark-base);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.5);
+}
+
+/* Links & Utilities */
+a {
+  color: var(--day-0-accent);
+  text-decoration: none;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+a:hover {
+  color: #c7d2fe;
+  text-shadow: 0 0 8px rgba(129, 140, 248, 0.4);
+}
+
+.gradient-text {
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-emerald {
+  background: var(--grad-success);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* --------------------------------------------------------------------------
+   3. Glassmorphism Components
+   -------------------------------------------------------------------------- */
+.glass-card {
+  background: var(--bg-dark-surface);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-glass);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  pointer-events: none;
+}
+
+.glass-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Header Navbar */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(9, 9, 17, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-glass);
+  padding: 16px 28px;
+}
+
+.header-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #fff;
+}
+.brand-link:hover {
+  text-shadow: none;
+}
+.brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: var(--grad-primary);
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+  font-size: 1.2rem;
+}
+
+/* --------------------------------------------------------------------------
+   4. Form Elements & Inputs
+   -------------------------------------------------------------------------- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+label .hint {
+  font-weight: 400;
+  font-size: 0.75rem;
+  text-transform: none;
+  color: var(--text-dim);
+  letter-spacing: 0;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper .input-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 1rem;
+  color: var(--text-dim);
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  background: rgba(10, 10, 24, 0.6);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  padding: 12px 16px 12px 42px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  outline: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) inset;
+}
+
+.no-icon-input {
+  padding-left: 16px !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(148, 163, 184, 0.45);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  background: rgba(15, 15, 35, 0.85);
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2), 0 4px 12px rgba(0,0,0,0.3);
+}
+
+input:focus ~ .input-icon,
+select:focus ~ .input-icon {
+  color: var(--day-0-accent);
+}
+
+select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%252394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+select option {
+  background: #121226;
+  color: #f1f5f9;
+  padding: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   5. Custom Intensity Pills
+   -------------------------------------------------------------------------- */
+.pill-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-glass);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.pill:hover {
+  border-color: rgba(129, 140, 248, 0.5);
+  background: rgba(99, 102, 241, 0.08);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.pill.selected {
+  border-color: #818cf8;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.2));
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35), 0 0 1px #fff inset;
+}
+
+.pill input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* --------------------------------------------------------------------------
+   6. Buttons & Actions
+   -------------------------------------------------------------------------- */
+.btn-primary {
+  width: 100%;
+  padding: 15px 24px;
+  background: var(--grad-primary);
+  border: none;
+  border-radius: var(--radius-md);
+  color: #fff;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transition: left 0.6s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(99, 102, 241, 0.55);
+}
+
+.btn-primary:hover::after {
+  left: 100%;
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-emerald {
+  background: var(--grad-success);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+}
+
+.btn-emerald:hover {
+  box-shadow: 0 12px 30px rgba(16, 185, 129, 0.55);
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.badge-purple {
+  background: rgba(99, 102, 241, 0.18);
+  color: #a5b4fc;
+  border: 1px solid rgba(99, 102, 241, 0.35);
+}
+
+.badge-emerald {
+  background: rgba(16, 185, 129, 0.18);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.badge-amber {
+  background: rgba(245, 158, 11, 0.18);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+/* Spinner */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: none;
+}
+.spinner.visible {
+  display: inline-block;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* --------------------------------------------------------------------------
+   7. Specific Page Layouts & Day Cards
+   -------------------------------------------------------------------------- */
+/* Day Cards (Result Page) */
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.day-card {
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.day-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+}
+
+.dc-0 { background: var(--day-0-bg); border: 1px solid var(--day-0-border); }
+.dc-1 { background: var(--day-1-bg); border: 1px solid var(--day-1-border); }
+.dc-2 { background: var(--day-2-bg); border: 1px solid var(--day-2-border); }
+.dc-3 { background: var(--day-3-bg); border: 1px solid var(--day-3-border); }
+.dc-4 { background: var(--day-4-bg); border: 1px solid var(--day-4-border); }
+.dc-5 { background: var(--day-5-bg); border: 1px solid var(--day-5-border); }
+.dc-6 { background: var(--day-6-bg); border: 1px solid var(--day-6-border); }
+
+.day-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.day-title-badge {
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+.dc-0 .day-title-badge { color: var(--day-0-accent); }
+.dc-1 .day-title-badge { color: var(--day-1-accent); }
+.dc-2 .day-title-badge { color: var(--day-2-accent); }
+.dc-3 .day-title-badge { color: var(--day-3-accent); }
+.dc-4 .day-title-badge { color: var(--day-4-accent); }
+.dc-5 .day-title-badge { color: var(--day-5-accent); }
+.dc-6 .day-title-badge { color: var(--day-6-accent); }
+
+.day-focus-pill {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Exercises Sub-list */
+.exercise-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.exercise-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(10, 10, 24, 0.4);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.exercise-bullet {
+  font-size: 1rem;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.exercise-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.exercise-name {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-bright);
+}
+
+.exercise-detail {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Refinement Chips */
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.chip {
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-glass);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.chip:hover {
+  background: rgba(99, 102, 241, 0.18);
+  border-color: rgba(99, 102, 241, 0.4);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+  .pill-group {
+    grid-template-columns: 1fr;
+  }
+  .plan-grid {
+    grid-template-columns: 1fr;
+  }
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

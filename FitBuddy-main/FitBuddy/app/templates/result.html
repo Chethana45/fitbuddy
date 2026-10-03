@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitBuddy &ndash; Your Workout &amp; Nutrition Plan</title>
+
+  <!-- Fonts: Plus Jakarta Sans & Roboto -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- Master Stylesheet -->
+  <link rel="stylesheet" href="/static/css/style.css" />
+
+  <style>
+    /* Plan Page Custom Layout Styles */
+    main {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* Top User Profile Banner */
+    .profile-banner {
+      padding: 24px 32px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .profile-user {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .avatar-ring {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--grad-primary);
+      padding: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #101026;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+    }
+
+    .profile-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .profile-name {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .profile-meta-chips {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .meta-chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-glass);
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      color: var(--text-main);
+    }
+
+    /* Workout Progress Tracking Panel */
+    .progress-card {
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .progress-head-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .progress-head-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 14px;
+      background: rgba(10, 10, 24, 0.6);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: var(--radius-full);
+      background: var(--grad-success);
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.6);
+      transition: width 0.4s ease;
+    }
+
+    .progress-actions-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+    }
+
+    .day-action-card {
+      background: rgba(10, 10, 24, 0.4);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-md);
+      padding: 12px 8px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .day-action-card.completed {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    .day-action-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .btn-complete-day {
+      appearance: none;
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      background: rgba(99, 102, 241, 0.18);
+      color: #c7d2fe;
+      padding: 5px 10px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+    .btn-complete-day:hover {
+      background: rgba(99, 102, 241, 0.35);
+      color: #fff;
+      box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+    }
+
+    .completed-indicator {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #34d399;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Nutrition Banner */
+    .nutrition-banner {
+      padding: 24px 30px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.08));
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .nutrition-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--grad-success);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+    }
+
+    .nutrition-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nutrition-title {
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #34d399;
+    }
+
+    .nutrition-text {
+      font-size: 1rem;
+      color: #e2e8f0;
+      line-height: 1.55;
+    }
+
+    /* Section Heading */
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    /* Refine Plan Card */
+    .refine-card {
+      padding: 32px;
+    }
+
+    .refine-row {
+      display: flex;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .refine-input {
+      flex: 1;
+    }
+
+    /* Disclaimer & Navigation Footer */
+    .disclaimer-text {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .back-home-wrap {
+      text-align: center;
+    }
+
+    .back-home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-glass);
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+    .back-home-link:hover {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: rgba(99, 102, 241, 0.4);
+      color: #fff;
+    }
+
+    @media (max-width: 900px) {
+      .progress-actions-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      main { padding: 24px 16px 60px; }
+      .profile-banner { padding: 20px; flex-direction: column; align-items: flex-start; }
+      .progress-actions-grid { grid-template-columns: repeat(2, 1fr); }
+      .refine-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- STICKY SITE HEADER -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <a href="/" class="brand-link">
+        <span class="brand-icon">💪</span>
+        <span>Fit<span class="gradient-text">Buddy</span></span>
+      </a>
+      <div style="display:flex; align-items:center; gap:12px;">
+        {% if is_updated %}
+          <span class="badge badge-emerald">✓ Plan Updated</span>
+        {% endif %}
+        <span class="badge badge-purple">Plan #{{ plan_id }}</span>
+        <a href="/view-all-users" class="badge" style="background:rgba(255,255,255,0.06); border:1px solid var(--border-glass); color:var(--text-muted);">
+          🔒 Admin &rarr;
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main role="main">
+
+    <!-- USER PROFILE BANNER -->
+    <section class="glass-card profile-banner" aria-label="User Profile Overview">
+      <div class="profile-user">
+        <div class="avatar-ring">
+          <div class="avatar-inner">
+            🏋️
+          </div>
+        </div>
+        <div class="profile-details">
+          <h1 class="profile-name">{{ username }}</h1>
+          <div class="profile-meta-chips">
+            <span class="meta-chip">🎂 {{ age }} yrs</span>
+            <span class="meta-chip">⚖️ {{ weight }} kg</span>
+            <span class="meta-chip" style="text-transform:capitalize;">🔥 {{ intensity }} Intensity</span>
+            <span class="meta-chip">🏆 {{ experience_level }}</span>
+            {% if user_id %}
+              <span class="meta-chip" style="font-family:monospace; color:#818cf8;">🆔 {{ user_id }}</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="badge badge-purple" style="font-size:0.9rem; padding:8px 20px;">
+        🎯 {{ goal }}
+      </div>
+    </section>
+
+    <!-- WORKOUT PROGRESS TRACKING PANEL -->
+    <section class="glass-card progress-card" aria-label="Workout Progress">
+      <div class="progress-head-row">
+        <div class="progress-head-title">
+          <span>📊</span> Workout Progress Tracker
+        </div>
+        <div style="font-size:0.9rem; font-weight:700; color:var(--text-muted);">
+          <span style="color:#fff;">{{ completed_days }}</span> of 7 Days Completed ({{ progress_percentage }}%)
+        </div>
+      </div>
+
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" style="width: {{ progress_percentage }}%;"></div>
+      </div>
+
+      <div class="progress-actions-grid">
+        {% for day in range(1, 8) %}
+          {% set done = day_status.get(day, false) %}
+          <div class="day-action-card {% if done %}completed{% endif %}">
+            <span class="day-action-label">Day {{ day }}</span>
+            {% if done %}
+              <span class="completed-indicator">✓ Done</span>
+            {% else %}
+              <form action="/progress/{{ user_pk_id if user_pk_id is not none else user_id }}/{{ day }}/complete" method="post" style="width:100%;">
+                <button type="submit" class="btn-complete-day">Mark Complete</button>
+              </form>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- NUTRITION & RECOVERY TIP -->
+    {% if nutrition_tip %}
+    <div class="nutrition-banner" role="complementary">
+      <div class="nutrition-icon">🥗</div>
+      <div class="nutrition-content">
+        <span class="nutrition-title">AI Nutrition &amp; Recovery Tip</span>
+        <p class="nutrition-text">{{ nutrition_tip }}</p>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if used_fallback %}
+    <div class="nutrition-banner" style="background:rgba(245,158,11,0.1); border-color:rgba(245,158,11,0.3);">
+      <div class="nutrition-icon" style="background:var(--grad-accent);">ℹ️</div>
+      <div class="nutrition-content">
+        <span class="nutrition-title" style="color:#fbbf24;">Standard Offline Plan Active</span>
+        <p class="nutrition-text">AI generation was temporarily unreachable. Displaying a safe expert baseline plan.</p>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- 7-DAY WORKOUT PLAN GRID -->
+    <section aria-label="7-Day Plan Grid">
+      <h2 class="section-title">
+        <span>📅</span> Your 7-Day Personal Plan
+        {% if is_updated %}<span class="badge badge-emerald" style="font-size:0.8rem;">Refined Plan</span>{% endif %}
+      </h2>
+
+      {% set dc_classes = ['dc-0', 'dc-1', 'dc-2', 'dc-3', 'dc-4', 'dc-5', 'dc-6'] %}
+      <div class="plan-grid">
+        {% for day, details in workout_plan.items() %}
+        <article class="day-card {{ dc_classes[loop.index0 % 7] }}">
+
+          <!-- Header -->
+          <div class="day-header">
+            <span class="day-title-badge">{{ day }}</span>
+            <span class="day-focus-pill">{{ details.focus | default('Rest & Recovery') }}</span>
+          </div>
+
+          <!-- Warm-up -->
+          {% if details.warmup %}
+          <div>
+            <div style="font-size:0.75rem; font-weight:700; text-transform:uppercase; color:#fbbf24; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+              <span>🌅</span> Warm-up (5&ndash;10 min)
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.4;">{{ details.warmup }}</p>
+          </div>
+          {% endif %}
+
+          <!-- Exercises List -->
+          {% if details.exercises %}
+          <div>
+            <div style="font-size:0.75rem; font-weight:700; text-transform:uppercase; color:#a5b4fc; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+              <span>💥</span> Core Exercises
+            </div>
+            <ul class="exercise-list">
+              {% for ex in details.exercises %}
+              <li class="exercise-item">
+                <span class="exercise-bullet">▶</span>
+                <div class="exercise-info">
+                  <span class="exercise-name">{{ ex.name }}</span>
+                  <span class="exercise-detail">{{ ex.sets }} sets &times; {{ ex.reps }}</span>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% else %}
+          <div style="text-align:center; padding:20px 0; color:var(--text-dim); font-style:italic;">
+            🛌 Rest &amp; Active Recovery Day
+          </div>
+          {% endif %}
+
+          <!-- Cooldown -->
+          {% if details.cooldown %}
+          <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top:12px; margin-top: auto;">
+            <div style="font-size:0.75rem; font-weight:700; text-transform:uppercase; color:#38bdf8; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+              <span>❄️</span> Cooldown &amp; Stretch
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.4;">{{ details.cooldown }}</p>
+          </div>
+          {% endif %}
+
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- REFINE PLAN WITH AI FEEDBACK -->
+    <section class="glass-card refine-card" aria-label="Refine Plan with AI">
+      <h3 style="font-size:1.3rem; font-weight:800; color:#fff; display:flex; align-items:center; gap:10px;">
+        <span>✏️</span> Refine Your Workout Plan
+      </h3>
+      <p style="font-size:0.9rem; color:var(--text-muted); margin-top:4px;">
+        Want to swap exercises, adjust intensity, or add yoga? Tell FitBuddy and your plan will adapt instantly.
+      </p>
+
+      <!-- Quick Suggestion Chips -->
+      <div class="chip-group">
+        <span class="chip" onclick="applySuggestion('Add 15 minutes of relaxing yoga on Day 3')">🧘 Add 15m Yoga</span>
+        <span class="chip" onclick="applySuggestion('Focus more on upper body strength')">💪 Upper Body Focus</span>
+        <span class="chip" onclick="applySuggestion('Make exercises lower impact for joints')">🛡️ Joint-Friendly / Low Impact</span>
+        <span class="chip" onclick="applySuggestion('Increase the intensity and challenge level')">🔥 Higher Challenge</span>
+      </div>
+
+      <form action="/submit-feedback" method="post" id="feedbackForm">
+        <input type="hidden" name="plan_id" value="{{ plan_id }}" />
+        <div class="refine-row">
+          <div class="input-wrapper refine-input">
+            <span class="input-icon">💬</span>
+            <input
+              id="feedbackInput"
+              name="feedback"
+              type="text"
+              required
+              placeholder='e.g. "Swap Day 2 squats for lunges", "Too hard, reduce intensity"'
+              aria-label="Refinement feedback"
+            />
+          </div>
+          <button type="submit" class="btn-primary btn-emerald" id="refineBtn" style="width:auto; padding:0 30px; white-space:nowrap;">
+            <span id="refineBtnLabel">Update Plan 🔄</span>
+            <span class="spinner" id="refineSpinner" aria-hidden="true"></span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- SAFETY DISCLAIMER -->
+    <p class="disclaimer-text">
+      🛡️ {{ safety_disclaimer }}
+    </p>
+
+    <!-- BACK TO HOME -->
+    <div class="back-home-wrap">
+      <a href="/" class="back-home-link">
+        <span>&larr; Create Another Plan</span>
+      </a>
+    </div>
+
+  </main>
+
+  <script src="/static/js/script.js" defer></script>
+</body>
+</html>
